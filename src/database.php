@@ -26,7 +26,7 @@ $sql= "INSERT INTO products (id, name, code, price, image) VALUES (NULL, '$name'
 
 if ($conn->query($sql) === TRUE) {
     echo "product added succesfully";
-    // echo "<script>window.location='index.php';</script>";
+    echo "<script>window.location='index.php';</script>";
     }
   
   else {

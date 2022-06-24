@@ -28,7 +28,7 @@ if (isset($_POST['action']) && $_POST['action']=="change"){
 ?>
 <html>
 <head>
-<title>Demo Shopping Cart - AllPHPTricks.com</title>
+<title>Demo Shopping Cart </title>
 
 </head>
 <style>
@@ -73,7 +73,7 @@ if (isset($_POST['action']) && $_POST['action']=="change"){
 <body>
 <div style="width:700px; margin:50 auto;">
 
-<h2>Demo Shopping Cart</h2>   
+<h2> Cart</h2>   
 
 <?php
 if(!empty($_SESSION["shopping_cart"])) {

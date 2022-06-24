@@ -7,6 +7,14 @@
     <title>Document</title>
 </head>
 <link rel="stylesheet" href="style.css">
+<style>
+    .form-horizontal{
+        background-color: skyblue;
+        font-style: oblique;
+        font-weight: bold;
+
+    }
+</style>
 <body>
 
 <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
@@ -37,7 +45,7 @@
 <div class="form-group">
   <label class="col-md-4 control-label" for="filebutton">PRODUCT CODE</label>
   <div class="col-md-4">
-    <input name="code" class="form-control input-md" type="number">
+    <input name="code" placeholder="PRODUCT CODE" class="form-control input-md" type="number">
   </div>
 </div>
 
