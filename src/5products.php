@@ -16,6 +16,34 @@ if ($conn->connect_error) {
 
 ?>
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<style>
+		.product_wrapper {
+	float:left;
+	padding: 13px;
+	text-align: center;
+	
+	}
+.product_wrapper:hover {
+	box-shadow: 0 0 0 2px #e5e5e5;
+	cursor:pointer;
+	color: blue;
+	background: grey;
+	}
+</style>
+<body>
+	
+</body>
+</html>
+
+
 <?php
 
 $result = mysqli_query($conn,"SELECT  * FROM `products` LIMIT 5");
@@ -31,7 +59,7 @@ while($row = mysqli_fetch_assoc($result)){
 		   	  </div>";
         }
 
-echo ""
+echo "";
 
 
 

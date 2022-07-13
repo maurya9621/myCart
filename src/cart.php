@@ -20,7 +20,7 @@ if (isset($_POST['action']) && $_POST['action']=="change"){
   foreach($_SESSION["shopping_cart"] as &$value){
     if($value['code'] === $_POST["code"]){
         $value['quantity'] = $_POST["quantity"];
-        break; // Stop the loop after we've found the product
+        break; 
     }
 }
   	
@@ -32,6 +32,10 @@ if (isset($_POST['action']) && $_POST['action']=="change"){
 
 </head>
 <style>
+	*{
+		margin: 0;
+		padding: 0;
+	}
 	.table td {
 	border-bottom: #F0F0F0 1px solid;
 	padding: 10px;
@@ -69,6 +73,185 @@ if (isset($_POST['action']) && $_POST['action']=="change"){
 .cart .remove:hover {
 	text-decoration:underline;
 	}
+
+	.payment-container {
+	margin: auto;
+	padding: 25px;
+	height: 400px;
+	width: 700px;
+	background: #f7f7f7;
+	border-radius: 15px;
+	box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+}
+
+/* NAV BAR */
+
+.top-nav {
+	margin: 0 auto;
+	height: 25px;
+	display: flex;
+	justify-content: center;
+}
+
+.top-nav ul {
+	display: flex;
+}
+
+.top-nav ul li {
+	width: 100px;
+	padding-bottom: 5px;
+	text-align: center;
+	cursor: pointer;
+}
+
+.normal {
+	color: gray;
+	border-bottom: 1px solid gray;
+}
+
+.highlighted {
+	font-weight: 700;
+	color: #4f7cac;
+	border-bottom: 2px solid #4f7cac;
+}
+
+/* MAIN PAYMENT SECTION */
+
+.main {
+	height: 325px;
+	/* display: flex; */
+	align-items: center;
+	justify-content: space-around;
+	font-size: 14px;
+}
+
+.right-payment-info {
+	margin-top: 25px;
+	width: 200px;
+	height: 300px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.payment-method h2 {
+	margin-bottom: 10px;
+	font-size: 16px;
+	font-weight: 700;
+}
+
+.radio-container {
+	display: flex;
+	gap: 5px;
+}
+
+.radio-container label:not(:last-child) {
+	margin-right: 20px;
+}
+
+.card-info-container {
+	width: 200px;
+	display: flex;
+	flex-direction: column;
+	gap: 15px;
+}
+
+.card-info {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	width: 200px;
+}
+
+.card-info label {
+	text-transform: uppercase;
+	letter-spacing: 0.025em;
+	font-size: 13px;
+}
+
+.card-info input {
+	margin-top: 5px;
+	border: 1px solid #333333;
+	border-radius: 5px;
+	letter-spacing: 0.025em;
+	height: 25px;
+}
+
+.full-width {
+	width: 200px;
+	padding-left: 5px;
+}
+
+.expire-ccv {
+	display: flex;
+	justify-content: space-between;
+}
+
+.expire-ccv input {
+	text-align: center;
+}
+
+.expire-ccv label {
+	display: flex;
+	flex-direction: column;
+}
+
+.expire-date {
+	border: 1px solid #333333;
+	border-radius: 5px;
+	margin-top: 5px;
+}
+
+.expire-date input {
+	margin: 0;
+	border: none;
+}
+
+.expire-date span {
+	font-size: 14px;
+	font-weight: 700;
+}
+
+.save-card-info {
+	display: flex;
+	align-items: center;
+	font-size: 13px;
+	gap: 5px;
+	margin-top: 15px;
+	letter-spacing: 0.025em;
+}
+
+input {
+	background-color: #f7f7f7;
+}
+
+input:focus {
+	outline: none;
+}
+
+.button {
+	width: 200px;
+	height: 30px;
+	text-transform: uppercase;
+	font-weight: 700;
+	font-size: 16px;
+	font-family: "Roboto", sans-serif;
+	letter-spacing: 0.05em;
+	color: #f7f7f7;
+	background-color: #4f7cac;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	transition: all 0.2s ease;
+}
+
+button:hover {
+	background-color: #2a94f4;
+}
+
+
+	/* checkout php */
+
 </style>
 <body>
 <div style="width:700px; margin:50 auto;">
@@ -103,7 +286,51 @@ if(isset($_SESSION["shopping_cart"])){
 <td>ITEMS TOTAL</td>
 </tr>	
 <?php		
+// echo $_SESSION["shopping_cart"];
 foreach ($_SESSION["shopping_cart"] as $product){
+	// print_r($product);
+
+	
+
+	$servername = "mysql-server";
+	$username = "root";
+	$password = "secret";
+	$dbname= "allphptricks";
+	
+	// Create connection
+	$conn = new mysqli($servername, $username, $password, $dbname);
+	// print_r($conn);die;
+	
+	// Check connection
+	if ($conn->connect_error) {
+	  die("Connection failed: " . $conn->connect_error);
+	}
+
+	$name=$product["name"];
+	$code=$product["code"];
+	$price=$product["price"];
+	$quantity=$product["quantity"];
+	$image=$product["image"];
+	$total += $price * $quantity;
+	
+
+	$sql = "INSERT INTO `orders` (`image`, `product_name`, `quantity`, `price`, `total_price`)
+	 VALUES ('$image', '$name', '$quantity', '$price', '$total');";
+
+
+if ($conn->query($sql) === TRUE) {
+    // echo "product added succesfully";
+    // echo "<script>window.location='index.php';</script>";
+	// echo'<script> alert("product added succesfully"); </script> ';
+    }
+  
+  else {
+    echo "Error: " . $sql . "<br>" . $conn->error;
+    echo'<script> window.location="cart.php"; </script> ';
+  }
+  
+  $conn->close();
+
 ?>
 <tr>
 <td><img src='<?php echo $product["image"]; ?>' width="50" height="40" /></td>
@@ -137,10 +364,20 @@ $total_price += ($product["price"]*$product["quantity"]);
 <tr>
 <td colspan="5" align="right">
 <strong>TOTAL: <?php echo "$".$total_price; ?></strong>
+
+
 </td>
 </tr>
+<tr>
+	<td> <a href="index.php"><button >  < continue Shopping </button></a></td>
+	 <td></td> <td><td></td></td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+	 
+</tr>
 </tbody>
-</table>		
+</table>
+
   <?php
 }else{
 	echo "<h3>Your cart is empty!</h3>";
@@ -158,5 +395,6 @@ $total_price += ($product["price"]*$product["quantity"]);
 <br /><br />
 
 </div>
+
 </body>
 </html>
